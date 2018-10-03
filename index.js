@@ -158,7 +158,7 @@ server.del('/products/delAll', function(req, res, next) {
   showRequestCount();
   productsSave.deleteMany({}, function(error) {
     //send 200 ok response
-    res.send(200, "All products have been deleted. Thank you for deleting.")
+    res.send(200, "All products have been deleted. Thank you for deleting") // message
   })
 
 })
