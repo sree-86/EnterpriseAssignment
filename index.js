@@ -31,8 +31,12 @@ server
 // Get all products in the system
 server.get('/products', function (req, res, next) {
 
+  //Output log
+  console.log('Get request received')
+
   // Increment counter
   getC++;
+  showgetC();
   // Find every entity within the given collection
   productsSave.find({}, function (error, products) {
 
@@ -44,8 +48,12 @@ server.get('/products', function (req, res, next) {
 // Get a single product by their product id
 server.get('/products/:id', function (req, res, next) {
 
+  //Output log
+  console.log('Get request received for individual Id')
+
   //Increment counter
   getC++;
+  showgetC();
 
   // Find a single product by their id within save
   productsSave.findOne({ _id: req.params.id }, function (error, product) {
@@ -66,8 +74,12 @@ server.get('/products/:id', function (req, res, next) {
 // Create a new product
 server.post('/products', function (req, res, next) {
 
+  //Output log
+  console.log('Post request received')
+
   //Increment counter
   postC++;
+  showpostC();
 
   // Make sure name is defined
   if (req.params.name === undefined ) {
@@ -101,6 +113,9 @@ server.post('/products', function (req, res, next) {
 
 // Update a product by their id
 server.put('/products/:id', function (req, res, next) {
+
+  //Output log
+  console.log('Put request received')
 
   // Make sure name is defined
   if (req.params.name === undefined ) {
@@ -137,8 +152,12 @@ server.put('/products/:id', function (req, res, next) {
 // Delete product with the given id
 server.del('/products/:id', function (req, res, next) {
 
+  //Output log
+  console.log('Delete request received')
+
   //Increment Counter
   delC++;
+  showdelC();
 
   // Delete the product with the persistence engine
   productsSave.delete(req.params.id, function (error, product) {
@@ -153,14 +172,29 @@ server.del('/products/:id', function (req, res, next) {
 
 server.del('/products/delAll', function(req, res, next) {
 
+  //Output log
+  console.log('Delete all request received')
+
   //Increment Counter
   delC++;
-  showRequestCount();
+  showdelC();
   productsSave.delete({}, function(error) {
     //send 200 ok response
     res.send(200, "All products have been deleted. Thank you for deleting") // message
   })
 
 })
+
+function showgetC(){
+  console.log("Count for get request is:" + getC);
+}
+
+function showpostC(){
+  console.log("Count for post request is:" + getC);
+}
+
+function showdelC(){
+  console.log("Count for delete request is:" + getC);
+}
 
 
