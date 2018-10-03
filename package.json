@@ -1,5 +1,5 @@
 {
-    "name": "UserApi",
+    "name": "ProductApi",
     "version": "1.0.0",
     "description": "REST API - Users",
     "dependencies": {

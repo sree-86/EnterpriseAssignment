@@ -2,10 +2,13 @@ var SERVER_NAME = 'product-api'
 var PORT = 8080;
 var HOST = '127.0.0.1';
 
-
+var getC = 0;
+var postC = 0;
+var delC = 0;
 var restify = require('restify')
 
-  // Get a persistence engine for the users
+
+  // Get a persistence engine for the products
   , productsSave = require('save')('products')
 
   // Create the restify server
@@ -25,31 +28,36 @@ server
   // Maps req.body to req.params so there is no switching between them
   .use(restify.bodyParser())
 
-// Get all users in the system
+// Get all products in the system
 server.get('/products', function (req, res, next) {
 
+  // Increment counter
+  getC++;
   // Find every entity within the given collection
   productsSave.find({}, function (error, products) {
 
-    // Return all of the users in the system
+    // Return all of the products in the system
     res.send(products)
   })
 })
 
-// Get a single user by their user id
+// Get a single product by their product id
 server.get('/products/:id', function (req, res, next) {
 
-  // Find a single user by their id within save
+  //Increment counter
+  getC++;
+
+  // Find a single product by their id within save
   productsSave.findOne({ _id: req.params.id }, function (error, product) {
 
     // If there are any errors, pass them to next in the correct format
     if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
 
     if (product) {
-      // Send the user if no issues
+      // Send the product if no issues
       res.send(product)
     } else {
-      // Send 404 header if the user doesn't exist
+      // Send 404 header if the product doesn't exist
       res.send(404)
     }
   })
@@ -57,6 +65,9 @@ server.get('/products/:id', function (req, res, next) {
 
 // Create a new product
 server.post('/products', function (req, res, next) {
+
+  //Increment counter
+  postC++;
 
   // Make sure name is defined
   if (req.params.name === undefined ) {
@@ -77,18 +88,18 @@ server.post('/products', function (req, res, next) {
     quantity: req.params.quantity
 	}
 
-  // Create the user using the persistence engine
+  // Create the product using the persistence engine
   productsSave.create( newProduct, function (error, product) {
 
     // If there are any errors, pass them to next in the correct format
     if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
 
-    // Send the user if no issues
+    // Send the product if no issues
     res.send(201, product)
   })
 })
 
-// Update a user by their id
+// Update a product by their id
 server.put('/products/:id', function (req, res, next) {
 
   // Make sure name is defined
@@ -112,7 +123,7 @@ server.put('/products/:id', function (req, res, next) {
     quantity: req.params.quantity
 	}
   
-  // Update the user with the persistence engine
+  // Update the product with the persistence engine
   productsSave.update(newProduct, function (error, product) {
 
     // If there are any errors, pass them to next in the correct format
@@ -123,10 +134,13 @@ server.put('/products/:id', function (req, res, next) {
   })
 })
 
-// Delete user with the given id
+// Delete product with the given id
 server.del('/products/:id', function (req, res, next) {
 
-  // Delete the user with the persistence engine
+  //Increment Counter
+  delC++;
+
+  // Delete the product with the persistence engine
   productsSave.delete(req.params.id, function (error, product) {
 
     // If there are any errors, pass them to next in the correct format
@@ -135,6 +149,13 @@ server.del('/products/:id', function (req, res, next) {
     // Send a 200 OK response
     res.send()
   })
+})
+
+server.del('/products/delAll', function(req, res, next) {
+
+  //Increment Counter
+  delC++;
+
 })
 
 
