@@ -2,6 +2,7 @@ var SERVER_NAME = 'product-api'
 var PORT = 8080;
 var HOST = '127.0.0.1';
 
+//various counters
 var getC = 0;
 var postC = 0;
 var delC = 0;
