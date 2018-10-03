@@ -171,7 +171,7 @@ server.del('/products/:id', function (req, res, next) {
   })
 })
 
-server.del('/products/delAll', function(req, res, next) {
+server.del('/products', function(req, res, next) {
 
   //Output log
   console.log('Delete all request received')
@@ -179,7 +179,7 @@ server.del('/products/delAll', function(req, res, next) {
   //Increment Counter
   delC++;
   showdelC();
-  productsSave.delete({}, function(error) {
+  productsSave.deleteMany({}, function(error) {
     //send 200 ok response
     res.send(200, "All products have been deleted. Thank you for deleting") // message
   })
@@ -191,11 +191,11 @@ function showgetC(){
 }
 
 function showpostC(){
-  console.log("Count for post request is:" + getC);
+  console.log("Count for post request is:" + postC);
 }
 
 function showdelC(){
-  console.log("Count for delete request is:" + getC);
+  console.log("Count for delete request is:" + delC);
 }
 
 
