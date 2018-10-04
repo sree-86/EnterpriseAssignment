@@ -89,11 +89,11 @@ server.post('/products', function (req, res, next) {
   }
   if (req.params.price === undefined ) {
     // If there are any errors, pass them to next in the correct format
-    return next(new restify.InvalidArgumentError('age must be supplied'))
+    return next(new restify.InvalidArgumentError('price must be supplied'))
   }
   if (req.params.quantity === undefined ) {
     // If there are any errors, pass them to next in the correct format
-    return next(new restify.InvalidArgumentError('age must be supplied'))
+    return next(new restify.InvalidArgumentError('quantity must be supplied'))
   }
   var newProduct = {
 		name: req.params.name, 
@@ -125,11 +125,11 @@ server.put('/products/:id', function (req, res, next) {
   }
   if (req.params.price === undefined ) {
     // If there are any errors, pass them to next in the correct format
-    return next(new restify.InvalidArgumentError('age must be supplied'))
+    return next(new restify.InvalidArgumentError('price must be supplied'))
   }
   if (req.params.quantity === undefined ) {
     // If there are any errors, pass them to next in the correct format
-    return next(new restify.InvalidArgumentError('age must be supplied'))
+    return next(new restify.InvalidArgumentError('quantity must be supplied'))
   }
   
   var newProduct = {
