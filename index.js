@@ -37,40 +37,23 @@ server.get('/products', function (req, res, next) {
 
   // Increment counter
   getC++;
-  showgetC();
+  showgetC(); //get function
   // Find every entity within the given collection
-  productsSave.find({}, function (error, products) {
-
-    // Return all of the products in the system
-    res.send(products)
-  })
-})
-
-// Get a single product by their product id
-server.get('/products/:id', function (req, res, next) {
-
-  //Output log
-  console.log('Get request received for individual Id')
-
-  //Increment counter
-  getC++;
-  showgetC();
-
-  // Find a single product by their id within save
-  productsSave.findOne({ _id: req.params.id }, function (error, product) {
-
-    // If there are any errors, pass them to next in the correct format
-    if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
-
-    if (product) {
-      // Send the product if no issues
-      res.send(product)
+  
+    // Send the product if no issues
+    productsSave.find({}, function (error, products) { 
+      if (products == '') {
+      // Return all of the products in the system
+      res.send(404, "No Products found. Please use 'POST' to send data.")
     } else {
-      // Send 404 header if the product doesn't exist
-      res.send(404)
-    }
-  })
+    // Send 404 header if the product doesn't exist
+    res.send(products)
+  }
 })
+  
+})
+
+
 
 // Create a new product
 server.post('/products', function (req, res, next) {
@@ -80,7 +63,7 @@ server.post('/products', function (req, res, next) {
 
   //Increment counter
   postC++;
-  showpostC();
+  showpostC(); //post function
 
   // Make sure name is defined
   if (req.params.name === undefined ) {
@@ -95,7 +78,7 @@ server.post('/products', function (req, res, next) {
     // If there are any errors, pass them to next in the correct format
     return next(new restify.InvalidArgumentError('quantity must be supplied'))
   }
-  var newProduct = {
+  var newProduct = { //create the product
 		name: req.params.name, 
     price: req.params.price,
     quantity: req.params.quantity
@@ -109,65 +92,6 @@ server.post('/products', function (req, res, next) {
 
     // Send the product if no issues
     res.send(201, product)
-  })
-})
-
-// Update a product by their id
-server.put('/products/:id', function (req, res, next) {
-
-  //Output log
-  console.log('Put request received')
-
-  // Make sure name is defined
-  if (req.params.name === undefined ) {
-    // If there are any errors, pass them to next in the correct format
-    return next(new restify.InvalidArgumentError('name must be supplied'))
-  }
-  if (req.params.price === undefined ) {
-    // If there are any errors, pass them to next in the correct format
-    return next(new restify.InvalidArgumentError('price must be supplied'))
-  }
-  if (req.params.quantity === undefined ) {
-    // If there are any errors, pass them to next in the correct format
-    return next(new restify.InvalidArgumentError('quantity must be supplied'))
-  }
-  
-  var newProduct = {
-		_id: req.params.id,
-		name: req.params.name, 
-    price: req.params.price,
-    quantity: req.params.quantity
-	}
-  
-  // Update the product with the persistence engine
-  productsSave.update(newProduct, function (error, product) {
-
-    // If there are any errors, pass them to next in the correct format
-    if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
-
-    // Send a 200 OK response
-    res.send(200)
-  })
-})
-
-// Delete product with the given id
-server.del('/products/:id', function (req, res, next) {
-
-  //Output log
-  console.log('Delete request received')
-
-  //Increment Counter
-  delC++;
-  showdelC();
-
-  // Delete the product with the persistence engine
-  productsSave.delete(req.params.id, function (error, product) {
-
-    // If there are any errors, pass them to next in the correct format
-    if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
-
-    // Send a 200 OK response
-    res.send()
   })
 })
 
@@ -187,15 +111,15 @@ server.del('/products', function(req, res, next) {
 })
 
 function showgetC(){
-  console.log("Count for get request is:" + getC);
+  console.log("Count for get request is:" + getC); //show the counter value for get
 }
 
 function showpostC(){
-  console.log("Count for post request is:" + postC);
+  console.log("Count for post request is:" + postC); //show the counter value for post
 }
 
 function showdelC(){
-  console.log("Count for delete request is:" + delC);
+  console.log("Count for delete request is:" + delC); //show the counter value for delete
 }
 
 
