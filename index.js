@@ -44,7 +44,7 @@ server.get('/products', function (req, res, next) {
     productsSave.find({}, function (error, products) { 
       if (products == '') {
       // Return all of the products in the system
-      res.send(404, "No Products found. Please use 'POST' to send data.git")
+      res.send(404, "No Products found. Please use 'POST' to send data")
     } else {
     // Send 404 header if the product doesn't exist
     res.send(products)
